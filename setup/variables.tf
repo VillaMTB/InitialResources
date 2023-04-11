@@ -30,6 +30,13 @@ variable "az_tenant" {
   description = "Client ID Azure AD tenant, use env variables"
 }
 
+# Oracle cloud
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "oci_fingerprint" {}
+variable "private_key_path" {}
+variable "oci_region" {}
+
 #GitHub
 variable "ado_github_pat" {
   type        = string

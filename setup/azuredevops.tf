@@ -101,6 +101,34 @@ resource "azuredevops_variable_group" "az-variablegroup" {
   }
 }
 
+resource "azuredevops_variable_group" "oci-variablegroup" {
+  project_id   = azuredevops_project.project.id
+  name         = "oci-variables"
+  description  = "Oracle cloud variable group for pipelines"
+  allow_access = true
+
+  variable {
+    name         = "user_ocid"
+    secret_value = var.user_ocid
+    is_secret    = true
+  }
+
+  variable {
+    name         = "oci_fingerprint"
+    secret_value = var.oci_fingerprint
+    is_secret    = true
+  }
+  variable {
+    name         = "tenancy_ocid"
+    secret_value = var.tenancy_ocid
+    is_secret    = true
+  }
+  variable {
+    name  = "oci_region"
+    value = var.oci_region
+  }
+}
+
 resource "azuredevops_serviceendpoint_azurerm" "endpointazure" {
   project_id                = azuredevops_project.project.id
   service_endpoint_name     = "HashiCorp SE AzureRM"

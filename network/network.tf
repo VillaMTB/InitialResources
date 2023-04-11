@@ -1,4 +1,4 @@
-module "network" {
+module "az-network" {
   source              = "Azure/network/azurerm"
   version             = "3.1.1"
   resource_group_name = "${var.organization_name}RSG"

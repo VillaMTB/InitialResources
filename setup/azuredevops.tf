@@ -45,3 +45,12 @@ resource "azuredevops_build_definition" "network-build-pipeline" {
   }
 
 }
+
+resource "azuredevops_serviceendpoint_azurerm" "endpointazure" {
+  project_id                = azuredevops_project.project.id
+  service_endpoint_name     = "HashiCorp SE AzureRM"
+  description               = "Managed by Terraform"
+  azurerm_spn_tenantid      = data.azurerm_client_config.current.tenant_id
+  azurerm_subscription_id   = data.azurerm_client_config.current.subscription_id
+  azurerm_subscription_name = "Personal Development"
+}

@@ -48,7 +48,7 @@ resource "azuredevops_build_definition" "network-build-pipeline" {
 
 resource "azuredevops_variable_group" "az-variablegroup" {
   project_id   = azuredevops_project.project.id
-  name         = "Azure variables"
+  name         = "az-variables"
   description  = "Azure variable group for pipelines"
   allow_access = true
 
@@ -66,7 +66,10 @@ resource "azuredevops_variable_group" "az-variablegroup" {
     name  = "key"
     value = var.az_state_key
   }
-
+  variable {
+    name = "notification_email_address"
+    value = var.notification_email_address
+  }
   variable {
     name         = "sas_token"
     secret_value = data.azurerm_storage_account_sas.state.sas

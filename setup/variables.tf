@@ -38,6 +38,11 @@ variable "ado_github_pat" {
 }
 
 # Organization
+variable "notification_email_address" {
+  type = string
+  description = "Email address where pipeline notifications will be sent"
+  default = "davidyates31@outlook.com"
+}
 variable "organization_name" {
   type        = string
   description = "The organization name in Terraform Cloud, Azure DevOps and the OCI compartment name"

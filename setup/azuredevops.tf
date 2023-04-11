@@ -40,7 +40,7 @@ resource "azuredevops_build_definition" "network-build-pipeline" {
     repo_type             = "GitHub"
     repo_id               = "${var.organization_name}/${local.ado_project_name}"
     branch_name           = "main"
-    yml_path              = "${local.ado_project_name}/network/ado-pipeline.yml"
+    yml_path              = "network/ado-pipeline.yml"
     service_connection_id = azuredevops_serviceendpoint_github.serviceendpoint_github.id
   }
 

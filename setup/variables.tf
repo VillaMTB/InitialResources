@@ -39,9 +39,9 @@ variable "ado_github_pat" {
 
 # Organization
 variable "notification_email_address" {
-  type = string
+  type        = string
   description = "Email address where pipeline notifications will be sent"
-  default = "davidyates31@outlook.com"
+  default     = "davidyates31@outlook.com"
 }
 variable "organization_name" {
   type        = string

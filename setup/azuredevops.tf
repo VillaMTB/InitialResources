@@ -67,7 +67,7 @@ resource "azuredevops_variable_group" "az-variablegroup" {
     value = var.az_state_key
   }
   variable {
-    name = "notification_email_address"
+    name  = "notification_email_address"
     value = var.notification_email_address
   }
   variable {

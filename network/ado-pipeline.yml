@@ -17,7 +17,7 @@ stages:
   jobs:
   - job: validate
     pool:
-      vmImage: ubuntu-latest
+      vmImage: on-premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform
@@ -47,7 +47,7 @@ stages:
   jobs:
   - job: plan
     pool:
-      vmImage: ubuntu-latest
+      vmImage: on-premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform
@@ -97,7 +97,7 @@ stages:
   jobs:
   - job: apply
     pool:
-      vmImage: ubuntu-latest
+      vmImage: on-premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform

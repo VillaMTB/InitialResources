@@ -39,7 +39,7 @@ resource "azuredevops_build_definition" "network-build-pipeline" {
   repository {
     repo_type             = "GitHub"
     repo_id               = "${var.organization_name}/${local.ado_project_name}"
-    branch_name           = "main"
+    branch_name           = "refs/heads/main"
     yml_path              = "network/ado-pipeline.yml"
     service_connection_id = azuredevops_serviceendpoint_github.serviceendpoint_github.id
   }
@@ -121,6 +121,11 @@ resource "azuredevops_variable_group" "oci-variablegroup" {
   variable {
     name         = "tenancy_ocid"
     secret_value = var.tenancy_ocid
+    is_secret    = true
+  }
+  variable {
+    name         = "oci_private_key"
+    secret_value = file("var.private_key_path")
     is_secret    = true
   }
   variable {

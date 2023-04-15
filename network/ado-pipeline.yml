@@ -1,4 +1,10 @@
-trigger: main
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - network
 
 pool:
   vmImage: 'Ubuntu-latest'

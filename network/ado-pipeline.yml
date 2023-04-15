@@ -1,6 +1,10 @@
 trigger:
-  branch: main
-
+  branches:
+    include:
+    - main
+  paths:
+  - network
+  
 pool:
   vmImage: 'Ubuntu-latest'
 

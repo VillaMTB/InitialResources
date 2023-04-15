@@ -4,7 +4,7 @@ trigger:
     - main
   paths:
     include:
-    - network
+    - terraform
 
 pool:
   vmImage: 'Ubuntu-latest'
@@ -21,8 +21,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd network
-          filename="backend.tf"
+          cd terraform
+          filename="terraform.tf"
           if [ ! -f "$filename" ]; then
             terraform init
             terraform validate
@@ -36,8 +36,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd network
-          filename="backend.tf"
+          cd terraform
+          filename="terraform.tf"
           if [ ! -f "$filename" ]; then
             export TF_VAR_azurerm_resource_group_name="test"
             terraform init
@@ -64,7 +64,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd network
+          cd terraform
           filename=".breadcrumb"
           if [ ! -f "$filename" ]; then
             cd ../templates
@@ -79,9 +79,9 @@ stages:
             export TF_VAR_tfc_token=$TFE_TOKEN
             export TFE_HOSTNAME=app.terraform.io
 
-            cat << EOF > backend.tf
+            cat << EOF > terraform.tf
             terraform {
-              backend "remote" {
+              terraform "remote" {
                 organization = "$TF_VAR_tfc_organization"
                 workspaces {
                   name = "$TF_VAR_tfc_workspace_name"
@@ -93,11 +93,11 @@ stages:
             git config user.email "davidyates31@outlook.com"
             git config user.name "davidyates31"
 
-            git checkout -b backend
-            git add backend.tf
-            git commit -m "created backend.tf"
+            git checkout -b terraform
+            git add terraform.tf
+            git commit -m "created terraform.tf"
             git checkout main
-            git merge backend 
+            git merge terraform 
             git push -u origin main
 
             terraform init
@@ -192,7 +192,7 @@ stages:
           git config user.name "davidyates31"
           git checkout main
 
-          cd network
+          cd terraform
           ls -l
           cat << EOF > .terraformrc
             credentials "app.terraform.io" {
@@ -232,7 +232,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd network
+          cd terraform
           
           export TF_VAR_tfc_workspace_name=$(WORKSPACE_NAME)
           export TF_VAR_tfc_organization=$TFC_ORG
@@ -251,10 +251,10 @@ stages:
           
           cd $(System.DefaultWorkingDirectory)/pipeline5/iac05
           rm -f staging/.breadcrumb
-          rm -f production/backend.tf
+          rm -f production/terraform.tf
 
           git add staging/.breadcrumb
-          git add production/backend.tf
+          git add production/terraform.tf
 
           git commit -a -m "removing breadcrumbs"
           git push -u origin main

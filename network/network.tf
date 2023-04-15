@@ -1,4 +1,4 @@
-/*
+
 module "az-network" {
   source              = "Azure/network/azurerm"
   version             = "3.1.1"
@@ -8,4 +8,3 @@ module "az-network" {
   subnet_prefixes     = [cidrsubnet(local.az_cidr_block, 8, 0)]
   subnet_names        = ["corp"]
 }
-*/

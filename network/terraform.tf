@@ -1,5 +1,11 @@
 
 terraform {
+  cloud {
+    organization = "VillaMTB"
+    workspaces {
+      name = "InitialResources"
+    }
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -8,9 +14,6 @@ terraform {
     oci = {
       source = "hashicorp/oci"
     }
-  }
-  backend "azurerm" {
-
   }
 }
 

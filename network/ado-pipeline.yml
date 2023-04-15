@@ -4,7 +4,7 @@ trigger:
     - main
   paths:
     include:
-    - terraform
+    - network
 
 pool:
   vmImage: 'Ubuntu-latest'
@@ -21,7 +21,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd terraform
+          cd network
           filename="terraform.tf"
           if [ ! -f "$filename" ]; then
             terraform init
@@ -36,7 +36,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd terraform
+          cd network
           filename="terraform.tf"
           if [ ! -f "$filename" ]; then
             export TF_VAR_azurerm_resource_group_name="test"
@@ -64,7 +64,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd terraform
+          cd network
           filename=".breadcrumb"
           if [ ! -f "$filename" ]; then
             cd ../templates
@@ -81,7 +81,7 @@ stages:
 
             cat << EOF > terraform.tf
             terraform {
-              terraform "remote" {
+              backend "remote" {
                 organization = "$TF_VAR_tfc_organization"
                 workspaces {
                   name = "$TF_VAR_tfc_workspace_name"
@@ -93,11 +93,11 @@ stages:
             git config user.email "davidyates31@outlook.com"
             git config user.name "davidyates31"
 
-            git checkout -b terraform
+            git checkout -b backend
             git add terraform.tf
             git commit -m "created terraform.tf"
             git checkout main
-            git merge terraform 
+            git merge backend 
             git push -u origin main
 
             terraform init
@@ -192,7 +192,7 @@ stages:
           git config user.name "davidyates31"
           git checkout main
 
-          cd terraform
+          cd network
           ls -l
           cat << EOF > .terraformrc
             credentials "app.terraform.io" {
@@ -232,7 +232,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          cd terraform
+          cd network
           
           export TF_VAR_tfc_workspace_name=$(WORKSPACE_NAME)
           export TF_VAR_tfc_organization=$TFC_ORG

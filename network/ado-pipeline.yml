@@ -1,5 +1,4 @@
-trigger:
-  branch: main
+trigger: main
 
 pool:
   vmImage: 'Ubuntu-latest'

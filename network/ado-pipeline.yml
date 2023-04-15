@@ -16,8 +16,7 @@ stages:
   displayName: Validate
   jobs:
   - job: validate
-    pool:
-      vmImage: on-premise
+    pool: On-Premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform
@@ -46,8 +45,7 @@ stages:
   displayName: Plan
   jobs:
   - job: plan
-    pool:
-      vmImage: on-premise
+    pool: On-Premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform
@@ -96,8 +94,7 @@ stages:
   displayName: Apply
   jobs:
   - job: apply
-    pool:
-      vmImage: on-premise
+    pool: On-Premise
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform

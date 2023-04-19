@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "$(TFC_ORG)"
+    organization = "VillaMTB"
     workspaces {
       name = "InitialResources"
     }
@@ -15,6 +15,9 @@ terraform {
       version = "~> 2.0"
 
     }
+    oci = {
+      source = "hashicorp/oci"
+    }
   }
 }
 
@@ -24,4 +27,12 @@ provider "azuredevops" {
 }
 provider "azurerm" {
   features {}
+}
+
+provider "oci" {
+  fingerprint  = var.oci_fingerprint
+  private_key  = var.oci_private_key
+  region       = var.oci_region
+  tenancy_ocid = var.tenancy_ocid
+  user_ocid    = var.user_ocid
 }

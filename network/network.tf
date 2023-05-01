@@ -1,3 +1,7 @@
+resource "azurerm_resource_group" "azVillaMTBRSG" {
+  name = "${var.organization_name}RSG"
+  location = var.az_region
+}
 /*
 module "az-network" {
   source              = "Azure/network/azurerm"

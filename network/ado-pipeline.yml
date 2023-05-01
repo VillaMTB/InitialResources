@@ -22,6 +22,7 @@ stages:
         targetType: 'inline'
         script: |
           cd network
+          terraform login
           terraform init
           terraform validate
       env:

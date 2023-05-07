@@ -1,4 +1,4 @@
-/*
+
 # Main VCN
 resource "oci_core_vcn" "ociVillaMTBCorpVCN" {
   compartment_id = var.org_compartment_ocid
@@ -96,4 +96,3 @@ resource "oci_core_drg_attachment" "ociVillaMTBCorpDRGAttach" {
     type = "VCN"
   }
 }
-*/

@@ -7,6 +7,6 @@ module "oci-network" {
 	source = "./network/oci-network"
 	environment_code = "Corp"
 	org_cidr_block = var.org_cidr_block
-	org_compartment_ocid = var.tenancy_ocid
+	org_compartment_ocid = var.org_compartment_ocid
 	organization_name = var.organization_name
 }

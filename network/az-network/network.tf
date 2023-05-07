@@ -12,7 +12,7 @@ module "az-network" {
   subnet_prefixes     = [cidrsubnet(local.az_cidr_block, 8, 0)]
   subnet_names        = ["corp"]
 }
-*/
+
 # Main VCN
 data "oci_identity_compartments" "ociCompartments" {
   #Required
@@ -31,3 +31,4 @@ resource "oci_core_vcn" "ociCorpVCN" {
   dns_label      = "villamtb"
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
+*/

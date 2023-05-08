@@ -1,7 +1,7 @@
 
 # Main VCN
 resource "oci_core_vcn" "ociVillaMTBCorpVCN" {
-  compartment_id = var.org_compartment_ocid
+  compartment_id = local.org_compartment_ocid
   cidr_blocks    = [cidrsubnet(var.org_cidr_block, 8, 0)]
   display_name   = join("-", [var.organization_name, var.environment_code, "VCN"])
   dns_label      = "villamtb"
@@ -10,7 +10,7 @@ resource "oci_core_vcn" "ociVillaMTBCorpVCN" {
 
 #	Subnet
 resource "oci_core_subnet" "ociVillaMTBCorpSubnet" {
-  compartment_id             = var.org_compartment_ocid
+  compartment_id             = local.org_compartment_ocid
   vcn_id                     = oci_core_vcn.ociVillaMTBCorpVCN.id
   cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 1)
   display_name               = join("-", [var.organization_name, var.environment_code, "Subnet"])
@@ -33,7 +33,7 @@ data "oci_core_services" "ociVillaMTBCorpServices" {
 #	NAT gateway
 resource "oci_core_nat_gateway" "ociVillaMTBCorpNAT" {
   #Required
-  compartment_id = var.org_compartment_ocid
+  compartment_id = local.org_compartment_ocid
   display_name   = join("-", [var.organization_name, var.environment_code, "NAT"])
   vcn_id         = oci_core_vcn.ociVillaMTBCorpVCN.id
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
@@ -51,7 +51,7 @@ resource "oci_core_default_route_table" "ociVillaMTBCorpDefaultRT" {
     destination       = data.oci_core_services.ociVillaMTBCorpServices.services[0]["cidr_block"]
     destination_type  = "SERVICE_CIDR_BLOCK"
     network_entity_id = oci_core_service_gateway.ociVillaMTBCorpSVC.id
-  } 
+  }
   route_rules {
     destination       = var.onprem_cidr_block
     destination_type  = "CIDR_BLOCK"
@@ -67,7 +67,7 @@ resource "oci_core_default_route_table" "ociVillaMTBCorpDefaultRT" {
 #	Service gateway
 resource "oci_core_service_gateway" "ociVillaMTBCorpSVC" {
   #Required
-  compartment_id = var.org_compartment_ocid
+  compartment_id = local.org_compartment_ocid
   display_name   = join("-", [var.organization_name, var.environment_code, "SVCGwy"])
   vcn_id         = oci_core_vcn.ociVillaMTBCorpVCN.id
 
@@ -79,7 +79,7 @@ resource "oci_core_service_gateway" "ociVillaMTBCorpSVC" {
 # DRG
 resource "oci_core_drg" "ociVillaMTBDRG" {
   #Required
-  compartment_id = var.org_compartment_ocid
+  compartment_id = local.org_compartment_ocid
 
   #Optional
   display_name = join("-", [var.organization_name, var.environment_code, "DRG"])

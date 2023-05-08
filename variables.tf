@@ -8,9 +8,6 @@ variable "az_region" {
 variable "oci_fingerprint" {}
 variable "oci_private_key" {}
 variable "oci_region" {}
-variable "org_compartment_ocid" {
-  default = "ocid1.compartment.oc1..aaaaaaaaltmnotnr7v4umg5wjng3477abn5qbmhzgmsidapj3ffutjd4xcda"
-}
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 

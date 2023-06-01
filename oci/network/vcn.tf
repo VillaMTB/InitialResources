@@ -1,28 +1,40 @@
 
 # Main VCN
-resource "oci_core_vcn" "ociVillaMTBCorpVCN" {
-  compartment_id = local.org_compartment_ocid
+resource "oci_core_vcn" "ociVillaMTBVCN" {
+  compartment_id = var.org_compartment_ocid
   cidr_blocks    = [cidrsubnet(var.org_cidr_block, 8, 0)]
-  display_name   = join("-", [var.organization_name, var.environment_code, "VCN"])
+  display_name   = join("-", [var.organization_name, "Corp", "VCN"])
   dns_label      = "villamtb"
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
 
-#	Subnet
+#	Subnets
 resource "oci_core_subnet" "ociVillaMTBCorpSubnet" {
-  compartment_id             = local.org_compartment_ocid
-  vcn_id                     = oci_core_vcn.ociVillaMTBCorpVCN.id
-  cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 1)
-  display_name               = join("-", [var.organization_name, var.environment_code, "Subnet"])
-  dns_label                  = lower(var.environment_code)
-  route_table_id             = oci_core_vcn.ociVillaMTBCorpVCN.default_route_table_id
-  security_list_ids          = [oci_core_vcn.ociVillaMTBCorpVCN.default_security_list_id]
+  compartment_id             = var.org_compartment_ocid
+  vcn_id                     = oci_core_vcn.ociVillaMTBVCN.id
+  cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 0)
+  display_name               = join("-", [var.organization_name, "Corp", "Subnet"])
+  dns_label                  = lower("Corp")
+  route_table_id             = oci_core_vcn.ociVillaMTBVCN.default_route_table_id
+  security_list_ids          = [oci_core_vcn.ociVillaMTBVCN.default_security_list_id]
   prohibit_public_ip_on_vnic = true
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
-/*
+
+resource "oci_core_subnet" "ociVillaMTBDevSubnet" {
+  compartment_id             = var.org_compartment_ocid
+  vcn_id                     = oci_core_vcn.ociVillaMTBVCN.id
+  cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 6)
+  display_name               = join("-", [var.organization_name, "Dev", "Subnet"])
+  dns_label                  = lower("Dev")
+  route_table_id             = oci_core_vcn.ociVillaMTBVCN.default_route_table_id
+  security_list_ids          = [oci_core_vcn.ociVillaMTBVCN.default_security_list_id]
+  prohibit_public_ip_on_vnic = true
+  # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
+}
+
 #	Services
-data "oci_core_services" "ociVillaMTBCorpServices" {
+data "oci_core_services" "ociVillaMTBServices" {
   filter {
     name   = "name"
     values = ["All .* Services In Oracle Services Network"]
@@ -31,69 +43,68 @@ data "oci_core_services" "ociVillaMTBCorpServices" {
 }
 
 #	NAT gateway
-resource "oci_core_nat_gateway" "ociVillaMTBCorpNAT" {
+resource "oci_core_nat_gateway" "ociVillaMTBNAT" {
   #Required
-  compartment_id = local.org_compartment_ocid
-  display_name   = join("-", [var.organization_name, var.environment_code, "NAT"])
-  vcn_id         = oci_core_vcn.ociVillaMTBCorpVCN.id
+  compartment_id = var.org_compartment_ocid
+  display_name   = join("-", [var.organization_name, "Corp", "NAT"])
+  vcn_id         = oci_core_vcn.ociVillaMTBVCN.id
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
 
 # Default Route Table
-resource "oci_core_default_route_table" "ociVillaMTBCorpDefaultRT" {
-  manage_default_resource_id = oci_core_vcn.ociVillaMTBCorpVCN.default_route_table_id
+resource "oci_core_default_route_table" "ociVillaMTBDefaultRT" {
+  manage_default_resource_id = oci_core_vcn.ociVillaMTBVCN.default_route_table_id
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
-    network_entity_id = oci_core_nat_gateway.ociVillaMTBCorpNAT.id
+    network_entity_id = oci_core_nat_gateway.ociVillaMTBNAT.id
   }
   route_rules {
-    destination       = data.oci_core_services.ociVillaMTBCorpServices.services[0]["cidr_block"]
+    destination       = data.oci_core_services.ociVillaMTBServices.services[0]["cidr_block"]
     destination_type  = "SERVICE_CIDR_BLOCK"
-    network_entity_id = oci_core_service_gateway.ociVillaMTBCorpSVC.id
+    network_entity_id = oci_core_service_gateway.ociVillaMTBSVC.id
   }
   route_rules {
     destination       = var.onprem_cidr_block
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_drg.ociVillaMTBDRG.id
   }
-  route_rules {
+  /*  route_rules {
     destination       = var.az_cidr_block
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_drg.ociVillaMTBDRG.id
-  }
+  }*/
 }
 
 #	Service gateway
-resource "oci_core_service_gateway" "ociVillaMTBCorpSVC" {
+resource "oci_core_service_gateway" "ociVillaMTBSVC" {
   #Required
-  compartment_id = local.org_compartment_ocid
-  display_name   = join("-", [var.organization_name, var.environment_code, "SVCGwy"])
-  vcn_id         = oci_core_vcn.ociVillaMTBCorpVCN.id
+  compartment_id = var.org_compartment_ocid
+  display_name   = join("-", [var.organization_name, "Corp", "SVCGwy"])
+  vcn_id         = oci_core_vcn.ociVillaMTBVCN.id
 
   services {
-    service_id = data.oci_core_services.ociVillaMTBCorpServices.services[0]["id"]
+    service_id = data.oci_core_services.ociVillaMTBServices.services[0]["id"]
   }
 }
 
 # DRG
 resource "oci_core_drg" "ociVillaMTBDRG" {
   #Required
-  compartment_id = local.org_compartment_ocid
+  compartment_id = var.org_compartment_ocid
 
   #Optional
-  display_name = join("-", [var.organization_name, var.environment_code, "DRG"])
+  display_name = join("-", [var.organization_name, "Corp", "DRG"])
 }
 
 # DRG attachment
-resource "oci_core_drg_attachment" "ociVillaMTBCorpDRGAttach" {
+resource "oci_core_drg_attachment" "ociVillaMTBDRGAttach" {
   #Required
   drg_id       = oci_core_drg.ociVillaMTBDRG.id
-  display_name = join("-", [var.organization_name, var.environment_code, "DRGAttach"])
+  display_name = join("-", [var.organization_name, "Corp", "DRGAttach"])
   # Optional
   network_details {
-    id   = oci_core_vcn.ociVillaMTBCorpVCN.id
+    id   = oci_core_vcn.ociVillaMTBVCN.id
     type = "VCN"
   }
 }
-*/

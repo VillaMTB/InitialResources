@@ -1,8 +1,8 @@
 # Default Security List for the VCN
-/*
-resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
-  manage_default_resource_id = oci_core_vcn.ociVillaMTBCorpVCN.default_security_list_id
-  compartment_id             = local.org_compartment_ocid
+
+resource "oci_core_default_security_list" "ociVillaMTBDSL" {
+  manage_default_resource_id = oci_core_vcn.ociVillaMTBVCN.default_security_list_id
+  compartment_id             = var.org_compartment_ocid
   # defined_tags = (local.common_tags)
 
   egress_security_rules {
@@ -23,7 +23,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   }
   ingress_security_rules {
     protocol = 1
-    source   = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source   = oci_core_vcn.ociVillaMTBVCN.cidr_block
     icmp_options {
       type = 3
     }
@@ -31,7 +31,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "ICMP Ping VCN"
     protocol    = 1
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
   }
   ingress_security_rules {
     description = "ICMP Ping On Premise"
@@ -69,7 +69,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "HTTP"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 80
@@ -91,7 +91,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "HTTPS"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 443
@@ -124,7 +124,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "DNS VCN"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 53
@@ -135,7 +135,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "DNS VCN"
     protocol    = "17"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     udp_options {
       min = 53
@@ -168,7 +168,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "Kerberos VCN"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 88
@@ -179,7 +179,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "Kerberos VCN"
     protocol    = "17"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     udp_options {
       min = 88
@@ -212,7 +212,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "Kerberos VCN"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 464
@@ -223,7 +223,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "Kerberos VCN"
     protocol    = "17"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     udp_options {
       min = 464
@@ -245,7 +245,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "NTP VCN"
     protocol    = "17"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     udp_options {
       min = 123
@@ -311,7 +311,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "LDAP VCN"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 389
@@ -322,7 +322,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "LDAP VCN"
     protocol    = "17"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     udp_options {
       min = 389
@@ -344,7 +344,7 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   ingress_security_rules {
     description = "LDAP Global Catalog VCN"
     protocol    = "6"
-    source      = oci_core_vcn.ociVillaMTBCorpVCN.cidr_block
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
     tcp_options {
       min = 3268
@@ -374,4 +374,3 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
     }
   }
 }
-*/

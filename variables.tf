@@ -20,7 +20,8 @@ variable "organization_name" {
 }
 
 locals {
-  ado_org_service_url = "https://dev.azure.com/${var.organization_name}"
-  az_cidr_block       = cidrsubnet(var.org_cidr_block, 8, 1)
-  oci_cidr_block      = cidrsubnet(var.org_cidr_block, 8, 0)
+  ado_org_service_url  = "https://dev.azure.com/${var.organization_name}"
+  az_cidr_block        = cidrsubnet(var.org_cidr_block, 8, 1)
+  oci_cidr_block       = cidrsubnet(var.org_cidr_block, 8, 0)
+  org_compartment_ocid = data.oci_identity_compartments.org_compartments.compartments[0].id
 }

@@ -5,7 +5,6 @@ variable "az_region" {
   default     = "ukwest"
 }
 # OCI
-variable "compartment_ocid" {}
 variable "oci_fingerprint" {}
 variable "oci_private_key" {}
 variable "oci_private_key_path" {}

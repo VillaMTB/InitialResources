@@ -19,10 +19,10 @@ data "oci_identity_availability_domains" "org_availability_domains" {
 
 module "oci-network" {
   source               = "./oci/network"
-  az_cidr_block        = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 1)
+  az_cidr_block        = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 1), 8, 0)
   environment_code     = "Corp"
   home_ip_address      = "2.25.217.51"
-  onprem_cidr_block    = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 5)
+  onprem_cidr_block    = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 5), 8, 0)
   org_cidr_block       = var.org_cidr_block
   org_compartment_ocid = local.org_compartment_ocid
   organization_name    = var.organization_name

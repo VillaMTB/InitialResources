@@ -21,18 +21,6 @@ resource "oci_core_subnet" "ociVillaMTBCorpSubnet" {
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
 
-resource "oci_core_subnet" "ociVillaMTBDevSubnet" {
-  compartment_id             = var.org_compartment_ocid
-  vcn_id                     = oci_core_vcn.ociVillaMTBVCN.id
-  cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 6)
-  display_name               = join("-", [var.organization_name, "Dev", "Subnet"])
-  dns_label                  = lower("Dev")
-  route_table_id             = oci_core_vcn.ociVillaMTBVCN.default_route_table_id
-  security_list_ids          = [oci_core_vcn.ociVillaMTBVCN.default_security_list_id]
-  prohibit_public_ip_on_vnic = true
-  # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
-}
-
 #	Services
 data "oci_core_services" "ociVillaMTBServices" {
   filter {

@@ -9,12 +9,12 @@ data "oci_identity_compartments" "org_compartments" {
   #Required
   compartment_id = var.tenancy_ocid
   #Optional
-  name           = var.organization_name
+  name = var.organization_name
 }
 
 data "oci_identity_availability_domains" "org_availability_domains" {
-    #Required
-    compartment_id = var.tenancy_ocid
+  #Required
+  compartment_id = var.tenancy_ocid
 }
 
 module "oci-network" {
@@ -29,9 +29,9 @@ module "oci-network" {
 }
 
 module "oci-corp-filesys" {
-  source = "./oci/storage"
-  corp_subnet_id = module.oci-network.corp_subnet_id
+  source                  = "./oci/storage"
+  corp_subnet_id          = module.oci-network.corp_subnet_id
   oci_availability_domain = data.oci_identity_availability_domains.org_availability_domains.availability_domains[0].name
-  org_compartment_ocid = local.org_compartment_ocid
-  organization_domain = "${lower(var.organization_name)}.com"
+  org_compartment_ocid    = local.org_compartment_ocid
+  organization_domain     = "${lower(var.organization_name)}.com"
 }

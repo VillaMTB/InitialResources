@@ -6,5 +6,5 @@ variable "organization_name" {}
 variable "tenancy_ocid" {}
 
 locals {
-  org_compartment_ocid = data.oci_identity_compartments.OrganizationCompartments.id
+  org_compartment_ocid = data.oci_identity_compartments.org_compartments.id
 }

@@ -1,10 +1,6 @@
 #	Compartments
-data "oci_identity_compartments" "OrganizationCompartments" {
+data "oci_identity_compartments" "org_compartments" {
   #Required
   compartment_id = var.tenancy_ocid
-  filter {
-    name   = "name"
-    values = [var.organization_name]
-    regex  = false
-  }
+  name           = var.organization_name
 }

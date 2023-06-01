@@ -1,5 +1,5 @@
 # Default Security List for the VCN
-
+/*
 resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
   manage_default_resource_id = oci_core_vcn.ociVillaMTBCorpVCN.default_security_list_id
   compartment_id             = local.org_compartment_ocid
@@ -374,3 +374,4 @@ resource "oci_core_default_security_list" "ociVillaMTBCorpDSL" {
     }
   }
 }
+*/

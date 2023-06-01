@@ -20,7 +20,7 @@ resource "oci_core_subnet" "ociVillaMTBCorpSubnet" {
   prohibit_public_ip_on_vnic = true
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
-
+/*
 #	Services
 data "oci_core_services" "ociVillaMTBCorpServices" {
   filter {
@@ -96,3 +96,4 @@ resource "oci_core_drg_attachment" "ociVillaMTBCorpDRGAttach" {
     type = "VCN"
   }
 }
+*/

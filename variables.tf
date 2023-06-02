@@ -8,6 +8,7 @@ variable "az_region" {
 variable "oci_fingerprint" {}
 variable "oci_private_key" {}
 variable "oci_region" {}
+variable "tenancy_namespace" {}
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 

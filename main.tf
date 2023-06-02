@@ -34,4 +34,5 @@ module "oci-corp-filesys" {
   oci_availability_domain = data.oci_identity_availability_domains.org_availability_domains.availability_domains[0].name
   org_compartment_ocid    = local.org_compartment_ocid
   organization_domain     = "${lower(var.organization_name)}.com"
+  tenancy_namespace       = var.tenancy_namespace
 }

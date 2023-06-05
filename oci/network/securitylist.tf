@@ -186,7 +186,46 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 88
     }
   }
+  ingress_security_rules {
+    description = "File System On Premise"
+    protocol    = "6"
+    source      = var.onprem_cidr_block
 
+    tcp_options {
+      min = 111
+      max = 111
+    }
+  }
+  ingress_security_rules {
+    description = "File System VCN"
+    protocol    = "6"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    tcp_options {
+      min = 111
+      max = 111
+    }
+  }
+  ingress_security_rules {
+    description = "File System On Premise"
+    protocol    = "17"
+    source      = var.onprem_cidr_block
+
+    udp_options {
+      min = 111
+      max = 111
+    }
+  }
+  ingress_security_rules {
+    description = "File System VCN"
+    protocol    = "17"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    udp_options {
+      min = 111
+      max = 111
+    }
+  }
   ingress_security_rules {
     description = "Kerberos On Premise"
     protocol    = "6"
@@ -318,7 +357,6 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 389
     }
   }
-
   ingress_security_rules {
     description = "LDAP VCN"
     protocol    = "17"
@@ -329,7 +367,26 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 389
     }
   }
+  ingress_security_rules {
+    description = "File System On Premise"
+    protocol    = "6"
+    source      = var.onprem_cidr_block
 
+    tcp_options {
+      min = 2048
+      max = 2050
+    }
+  }
+  ingress_security_rules {
+    description = "File System VCN"
+    protocol    = "6"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    tcp_options {
+      min = 2048
+      max = 2050
+    }
+  }
   ingress_security_rules {
     description = "LDAP Global Catalog On Premise"
     protocol    = "6"

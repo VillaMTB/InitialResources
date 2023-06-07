@@ -324,7 +324,16 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 445
     }
   }
+  ingress_security_rules {
+    description = "SMB VCN"
+    protocol    = "6"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
 
+    tcp_options {
+      min = 445
+      max = 445
+    }
+  }
   ingress_security_rules {
     description = "LDAP On Premise"
     protocol    = "6"

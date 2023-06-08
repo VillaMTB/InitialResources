@@ -378,6 +378,26 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
   }
   ingress_security_rules {
     description = "File System On Premise"
+    protocol    = "17"
+    source      = var.onprem_cidr_block
+
+    udp_options {
+      min = 2048
+      max = 2048
+    }
+  }
+  ingress_security_rules {
+    description = "File System VCN"
+    protocol    = "17"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    udp_options {
+      min = 2048
+      max = 2048
+    }
+  }
+  ingress_security_rules {
+    description = "File System On Premise"
     protocol    = "6"
     source      = var.onprem_cidr_block
 

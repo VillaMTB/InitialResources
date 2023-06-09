@@ -6,7 +6,7 @@ resource "oci_dns_view" "ociVillaMTBPrivateView" {
   scope        = "PRIVATE"
   display_name = "${lower(var.organization_name)}.com"
 }
-/*resource "oci_dns_zone" "ociVillaMTBPrivateZone" {
+resource "oci_dns_zone" "ociVillaMTBPrivateZone" {
   #Required
   compartment_id = var.org_compartment_ocid
   name           = "${lower(var.organization_name)}.com"
@@ -33,9 +33,25 @@ resource "oci_dns_rrset" "ociVillaMTBDC1" {
   scope   = "PRIVATE"
   view_id = oci_dns_view.ociVillaMTBPrivateView.id
 }
-# Associate the private view to the VCN DNS resolver
-*/
 
+resource "oci_dns_rrset" "ociVillaMTBFW" {
+  #Required
+  domain          = "firewall.${lower(var.organization_name)}.com"
+  rtype           = "A"
+  zone_name_or_id = oci_dns_zone.ociVillaMTBPrivateZone.id
+
+  #Optional
+  compartment_id = var.org_compartment_ocid
+  items {
+    #Required
+    domain = "firewall.${lower(var.organization_name)}.com"
+    rdata  = "10.5.0.1"
+    rtype  = "A"
+    ttl    = "30"
+  }
+  scope   = "PRIVATE"
+  view_id = oci_dns_view.ociVillaMTBPrivateView.id
+}
 # Create DNS listener and forwarder with a rule to the On-Premise DNS server
 data "oci_dns_resolvers" "ociVillaMTBDNSResolvers" {
   #Required
@@ -83,3 +99,4 @@ resource "oci_dns_resolver" "ociVillaMTBDNSResolver" {
     qname_cover_conditions = ["${lower(var.organization_name)}.com"]
   }
 }
+# Associate the private view to the VCN DNS resolver

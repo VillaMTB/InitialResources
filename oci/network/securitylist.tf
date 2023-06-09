@@ -459,4 +459,46 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 5902
     }
   }
+  ingress_security_rules {
+    description = "LDAP On Premise HTTPS"
+    protocol    = "6"
+    source      = var.onprem_cidr_block
+
+    tcp_options {
+      min = 686
+      max = 686
+    }
+  }
+
+  ingress_security_rules {
+    description = "LDAP On Premise HTTPS"
+    protocol    = "17"
+    source      = var.onprem_cidr_block
+
+    udp_options {
+      min = 686
+      max = 686
+    }
+  }
+
+  ingress_security_rules {
+    description = "LDAP VCN HTTPS"
+    protocol    = "6"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    tcp_options {
+      min = 686
+      max = 686
+    }
+  }
+  ingress_security_rules {
+    description = "LDAP VCN HTTPS"
+    protocol    = "17"
+    source      = oci_core_vcn.ociVillaMTBVCN.cidr_block
+
+    udp_options {
+      min = 686
+      max = 686
+    }
+  }
 }

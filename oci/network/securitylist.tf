@@ -448,7 +448,6 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 3389
     }
   }
-
   ingress_security_rules {
     description = "VNC On Premise"
     protocol    = "6"
@@ -457,6 +456,16 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
     tcp_options {
       min = 5901
       max = 5902
+    }
+  }
+    ingress_security_rules {
+    description = "WINRM On Premise"
+    protocol    = "6"
+    source      = var.onprem_cidr_block
+
+    tcp_options {
+      min = 5985
+      max = 5986
     }
   }
   ingress_security_rules {

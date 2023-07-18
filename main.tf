@@ -21,7 +21,7 @@ module "oci-network" {
   source               = "./oci/network"
   az_cidr_block        = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 1), 8, 0)
   environment_code     = "Corp"
-  home_ip_address      = "2.25.217.51"
+  home_ip_address      = "95.148.17.115"
   onprem_cidr_block    = cidrsubnet(var.org_cidr_block, 8, 5)
   org_cidr_block       = var.org_cidr_block
   org_compartment_ocid = local.org_compartment_ocid

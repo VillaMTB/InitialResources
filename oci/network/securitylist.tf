@@ -458,7 +458,7 @@ resource "oci_core_default_security_list" "ociVillaMTBDSL" {
       max = 5902
     }
   }
-    ingress_security_rules {
+  ingress_security_rules {
     description = "WINRM On Premise"
     protocol    = "6"
     source      = var.onprem_cidr_block

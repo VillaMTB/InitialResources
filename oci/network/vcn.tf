@@ -4,7 +4,7 @@ resource "oci_core_vcn" "ociVillaMTBVCN" {
   compartment_id = var.org_compartment_ocid
   cidr_blocks    = [cidrsubnet(var.org_cidr_block, 8, 0)]
   display_name   = join("-", [var.organization_name, "Corp", "VCN"])
-  dns_label      = "villamtb"
+  dns_label      = local.dns
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
 }
 
@@ -13,12 +13,32 @@ resource "oci_core_subnet" "ociVillaMTBCorpSubnet" {
   compartment_id             = var.org_compartment_ocid
   vcn_id                     = oci_core_vcn.ociVillaMTBVCN.id
   cidr_block                 = cidrsubnet(cidrsubnet(var.org_cidr_block, 8, 0), 8, 0)
+  dhcp_options_id            = oci_core_dhcp_options.ociVillaMTBCorpDHCP.id
   display_name               = join("-", [var.organization_name, "Corp", "Subnet"])
   dns_label                  = lower("Corp")
   route_table_id             = oci_core_vcn.ociVillaMTBVCN.default_route_table_id
   security_list_ids          = [oci_core_vcn.ociVillaMTBVCN.default_security_list_id]
   prohibit_public_ip_on_vnic = true
   # defined_tags = {"Operations.CostCentre"= "1","Oracle-Tags.CreatedBy"="david","Oracle-Tags.CreatedOn"=timestamp()}
+}
+
+# DHCP Options using custom on-premise resolvers
+resource "oci_core_dhcp_options" "ociVillaMTBCorpDHCP" {
+  #Required
+  compartment_id = var.org_compartment_ocid
+  display_name   = join("-", [var.organization_name, "Corp", "DHCP"])
+  options {
+    type               = "DomainNameServer"
+    server_type        = "CustomDnsServer"
+    custom_dns_servers = ["10.5.0.2", "10.5.0.1"]
+  }
+
+  options {
+    type                = "SearchDomain"
+    search_domain_names = [local.domain]
+  }
+
+  vcn_id = oci_core_vcn.ociVillaMTBVCN.id
 }
 
 #	Services

@@ -5,3 +5,8 @@ variable "onprem_cidr_block" {}
 variable "org_cidr_block" {}
 variable "org_compartment_ocid" {}
 variable "organization_name" {}
+
+locals {
+  dns    = lower(var.organization_name)
+  domain = join(".", [local.dns, "com"])
+}
